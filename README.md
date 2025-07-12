@@ -233,6 +233,13 @@ La API intercepta cualquier ruta configurada y responde según la configuración
 - **Escalable:** Puedes cambiar el rate limiter o la base de datos fácilmente.
 
 ---
+## Uso de IA
+LLMs utilizadas ChatGPT y Copilot de Visual Studio Code
+
+- **Instrucciones:** Después de leer yo las instrucciones y entenderals, le escribí lo que habia comprendido junto con las instrucciones originales para que me dijera si me faltaba algo y me marcara las partes más importanes.
+- **DB:** Hice un boceto de una DB y le pedí que la revisara para agregar cosas que me pudieron haber faltado.
+- **Datos para probar:** Le pedí que me diera datos para probar el funcionamiento de la API.
+- **Errores de código:** Le iba pidiendo soluciones a errores que se iban presentando conforme programaba.
 
 ## Créditos
 
