@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MockMethod {
+  GET
+  POST
+  PUT
+  DELETE
+}
+
+enum HttpStatus {
+  Ok_200           @map("200")
+  CREATED_201      @map("201")
+  BAD_REQUEST_400  @map("400")
+  NOT_FOUND_404    @map("404")
+  SERVER_ERROR_500 @map("500")
+}
+
+model MockConfig {
+  id               Int        @id @default(autoincrement())
+  ruta             String // Ruta del endpoint
+  metodo           MockMethod // Verbo HTTP
+  queryParams      Json // parametros de consulta
+  bodyParams       Json // parametros del cuerpo
+  headers          Json // parametros del encabezado
+  statusCode       HttpStatus // Codigo HTTP a devolver
+  responseTemplate String     @db.Text // Datos de la respuesta
+  contentType      String // Tipo de contenido
+
+  // Relación con variaciones condicionales
+  variations MockVariation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MockVariation {
+  id                  Int        @id @default(autoincrement())
+  mockConfig          MockConfig @relation(fields: [mockConfigId], references: [id])
+  mockConfigId        Int // FK a MockConfig
+  condition           Json // JSON con la condicion del perfil
+  overrideStatusCode  Int? //  Sobrescribe el status code
+  overrideTemplate    String?    @db.Text //  Plantilla distinta
+  overrideContentType String? //  Content-Type distinto
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
